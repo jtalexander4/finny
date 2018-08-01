@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './components/HelloWorld.vue'
 import Dashboard from './components/Dashboard.vue'
+import AddAccount from './components/AddAccount.vue'
 
 Vue.use(Router)
 
@@ -20,6 +21,11 @@ export default new Router({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       // component: () => import(/* webpackChunkName: "about" */ './views/Dashboard.vue')
+    },
+    {
+      path: '/addAccount',
+      name: 'addAccount',
+      component: AddAccount
     }
   ]
 })
