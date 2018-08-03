@@ -12,24 +12,26 @@
                                 <v-text-field
                                     v-model="name"
                                     :rules="nameRules"
-                                    :counter="10"
+                                    :counter="50"
                                     label="Account Name"
                                     required
                                 ></v-text-field>
                             </v-flex>
                             <v-flex xs12>
-                                <v-text-field
+                                <v-select
                                     v-model="parentAccount"
                                     :rules="parentAccountRules"
-                                    :counter="10"
+                                    :items="parentAccountNames"
+                                    item-text="name"
+                                    item-value="id"
                                     label="Parent Account Name"
-                                ></v-text-field>
+                                ></v-select>
                             </v-flex>
                             <v-flex xs12>
                                 <v-text-field
                                     v-model="balance"
                                     :rules="balanceRules"
-                                    :counter="10"
+                                    :counter="50"
                                     label="Balance"
                                 ></v-text-field>
                             </v-flex>
@@ -71,15 +73,15 @@
                 name: '',
                 nameRules: [
                     v => !!v || 'Account name is required',
-                    v => v.length <=10 || 'Account name must be less than 10 characters'
+                    v => v.length <=50 || 'Account name must be less than 50 characters'
                 ],
                 parentAccount: null,
-                parentAccountRules: [
-                ],
+                parentAccountNames: [],
+                parentAccountRules: [],
                 balance: '',
                 balanceRules: [
                     v => !!v || 'Current balance is required',
-                    v => v.length <=10 || 'Current balance must be less than 10 characters'
+                    v => v.length <=50 || 'Current balance must be less than 50 characters'
                 ],
                 accountType: null,
                 accountTypeNames: [],
@@ -121,6 +123,23 @@
             _.forEach(records, record => {
                 this.accountTypeNames.push({id: record.id, name: record.name})
             })
+            })
+            this.$apollo.query({
+                query: gql`
+                    {
+                        allAccounts {
+                            nodes {
+                                id
+                                name
+                            }
+                        }
+                    }
+                `
+            }).then(response => {
+                let records = response.data.allAccounts.nodes
+                _.forEach(records, record => {
+                    this.parentAccountNames.push({id: record.id, name: record.name})
+                })
             })
         }
     }

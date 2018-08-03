@@ -10,7 +10,7 @@
         <v-list
           dense
           class="grey lighten-4"
-        >
+        ><br>
           <template v-for="(item, i) in navItems">
             <v-layout
               v-if="item.heading"
