@@ -80,6 +80,7 @@
         { divider: true },
         { heading: 'Shortcuts'},
         { name: 'Add New Account', icon: 'add', path: '#/addAccount'},
+        { name: 'Add New Account Type', icon: 'add', path: '#/addAccountType'},
         { name: 'Add New Transaction', icon: 'add'},
         { divider: true },
         { name: 'Dashboard', icon: 'dashboard', path: '#/dashboard', disabled: false },

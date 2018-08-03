@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from './components/HelloWorld.vue'
 import Dashboard from './components/Dashboard.vue'
 import AddAccount from './components/AddAccount.vue'
+import AddAccountType from './components/AddAccountType.vue'
 
 Vue.use(Router)
 
@@ -26,6 +27,11 @@ export default new Router({
       path: '/addAccount',
       name: 'addAccount',
       component: AddAccount
-    }
+    },
+    {
+      path: '/addAccountType',
+      name: 'addAccountType',
+      component: AddAccountType
+    },
   ]
 })

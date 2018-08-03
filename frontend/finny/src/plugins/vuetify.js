@@ -16,6 +16,8 @@ import {
   VForm,
   VDialog,
   VCard,
+  VCheckbox,
+  VSelect,
 } from 'vuetify'
 import 'vuetify/src/stylus/app.styl'
 
@@ -36,5 +38,7 @@ Vue.use(Vuetify, {
     VForm,
     VDialog,
     VCard,
+    VCheckbox,
+    VSelect,
   },
 })
