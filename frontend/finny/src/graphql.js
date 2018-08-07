@@ -40,4 +40,25 @@ export const ADD_ACCOUNT = gql`
     }
 `
 
+export const EDIT_ACCOUNT = gql`
+    mutation editAccount($id: Int!, $name: String, $accountTypeId: Int) {
+        updateAccountById (input: {
+            id: $id
+            accountPatch: {
+                name: $name
+                accountTypeId: $accountTypeId
+            }
+        }) {
+            account {
+                id
+                name
+                accountTypeByAccountTypeId {
+                    id
+                    name
+                }
+            }
+        }
+    }
+`
+
 
