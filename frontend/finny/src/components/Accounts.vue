@@ -3,7 +3,7 @@
     <v-layout>
     <v-flex xs12>
       <v-card>
-        <v-toolbar color="teal" dark>
+        <v-toolbar color="light-blue" dark>
 
           <v-toolbar-title>Accounts</v-toolbar-title>
 
@@ -27,7 +27,7 @@
                     <v-list-tile-title>{{ item.name }}</v-list-tile-title>
                 </v-list-tile-content>
                 <v-list-tile-action>
-                    <v-btn @click="accountId(item.id)">
+                    <v-btn outline @click="accountId(item.id)" color="green" fab small dark>
                         <v-icon>edit</v-icon>
                     </v-btn>
                 </v-list-tile-action>
@@ -51,8 +51,8 @@
                     <v-list-tile-title>{{ subItem.name }}</v-list-tile-title>
                     <v-list-tile-sub-title>{{ subItem.balance | toCurrency }}</v-list-tile-sub-title>
                 </v-list-tile-content>
-                <v-list-tile-action offset-xs12>
-                    <v-btn @click="accountId(subItem.id)" v-model="editDialog">
+                <v-list-tile-action>
+                    <v-btn outline @click="accountId(subItem.id)" v-model="editDialog" color="green" fab small dark>
                         <v-icon>edit</v-icon>
                     </v-btn>
                 </v-list-tile-action>
@@ -61,6 +61,16 @@
         </v-list>
       </v-card>
     </v-flex>
+    <v-btn
+        fixed
+        dark
+        fab
+        bottom
+        right
+        color="red"
+    >
+    <v-icon>add</v-icon>
+    </v-btn>
   </v-layout>
   <v-fade-transition>
     <v-dialog v-model="editDialog" persistent max-width="500px">
@@ -79,6 +89,16 @@
                                 label="Account Name"
                                 required
                             ></v-text-field>
+                        </v-flex>
+                        <v-flex xs12>
+                            <v-select
+                                v-model="parentAccount"
+                                :rules="parentAccountRules"
+                                :items="parentAccountNames"
+                                item-text="name"
+                                item-value="id"
+                                label="Parent Account Name"
+                            ></v-select>
                         </v-flex>
                     </v-layout>
                 </v-container>
@@ -113,6 +133,9 @@
                     {account_type: 'Equity', icon: 'trending_up'}
                 ],
                 name: '',
+                parentAccount: null,
+                parentAccountRules: [],
+                parentAccountNames: [],
                 id: '',
                 nameRules: [
                     v => !!v || 'Account name is required',
@@ -121,46 +144,21 @@
             }
         },
         methods: {
-            editAccount ($id) {
+            editAccount () {
                 this.$apollo
                     .mutate({
                         mutation: EDIT_ACCOUNT,
                         variables: {
                             id: this.id,
-                            name: this.name
+                            name: this.name,
+                            parentAccountId: this.parentAccount,
                         },
-                        refetchQueries: [
-                            { query: gql`
-                    {
-                        allAccounts(filter: {
-                            parentAccountId: {
-                                isNull: true
-                            }
-                        }) {
-                            nodes {
-                                id
-                                name
-                                balance
-                                accountsByParentAccountId{
-                                    nodes {
-                                        id
-                                        name
-                                        balance
-                                    }
-                                }
-                                accountTypeByAccountTypeId {
-                                    name
-                                }
-                            }
-                        }
-                    }
-                `}]
-                    }).then(response => {
-                        this.editDialog = false
-                    })
+                    }).then(
+                        this.editDialog = false,
+                        location.reload()
+                    )
             },
             accountId: function(e) {
-                let i=0, len=0
                 if (e) {
                     console.log(e)
                     this.id = e
@@ -211,6 +209,27 @@
                         icon: icon,
                         checkbox: false
                     })
+                })
+            }),
+            this.$apollo.query({
+                query: gql`
+                    {
+                        allAccounts(filter: {
+                            parentAccountId: {
+                                isNull: true
+                            }
+                        }) {
+                            nodes {
+                                id
+                                name
+                            }
+                        }
+                    }
+                `
+            }).then(response => {
+                let records = response.data.allAccounts.nodes
+                _.forEach(records, record => {
+                    this.parentAccountNames.push({id: record.id, name: record.name})
                 })
             })
         }

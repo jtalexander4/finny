@@ -6,7 +6,6 @@ import store from './store'
 import './plugins/vuetify'
 import { createProvider } from './plugins/apollo'
 import vgl from 'vue-golden-layout'
-import $ from 'jquery'
 
 Vue.config.productionTip = false
 

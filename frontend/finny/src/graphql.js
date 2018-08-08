@@ -41,18 +41,23 @@ export const ADD_ACCOUNT = gql`
 `
 
 export const EDIT_ACCOUNT = gql`
-    mutation editAccount($id: Int!, $name: String, $accountTypeId: Int) {
+    mutation editAccount($id: Int!, $name: String, $accountTypeId: Int $parentAccountId: Int) {
         updateAccountById (input: {
             id: $id
             accountPatch: {
                 name: $name
                 accountTypeId: $accountTypeId
+                parentAccountId: $parentAccountId
             }
         }) {
             account {
                 id
                 name
                 accountTypeByAccountTypeId {
+                    id
+                    name
+                }
+                accountByParentAccountId {
                     id
                     name
                 }

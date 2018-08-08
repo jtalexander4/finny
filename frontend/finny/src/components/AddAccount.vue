@@ -101,9 +101,6 @@
                             parentAccountId: this.parentAccount
                         }
                     })
-                    .then(response => {
-                        this.$router.replace('/accounts')
-                    })
             }
         },
         mounted () {

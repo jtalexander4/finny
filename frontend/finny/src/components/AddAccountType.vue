@@ -41,8 +41,6 @@
 </template>
 
 <script>
-    import _ from 'lodash'
-    import gql from 'graphql-tag'
     import { ADD_ACCOUNT_TYPE } from '@/graphql'
 
     export default {
@@ -69,9 +67,6 @@
                             name: this.name,
                             credit_positive: this.creditPositive
                         }
-                    })
-                    .then(response => {
-                        this.$router.replace('/')
                     })
             }
         }
