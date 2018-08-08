@@ -101,6 +101,7 @@
                             parentAccountId: this.parentAccount
                         }
                     })
+                this.$router.push('/accounts')
             }
         },
         mounted () {
@@ -124,7 +125,7 @@
             this.$apollo.query({
                 query: gql`
                     {
-                        allAccounts {
+                        allAccounts(filter: { parentAccountId: { isNull: true } }) {
                             nodes {
                                 id
                                 name
