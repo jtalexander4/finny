@@ -6,10 +6,15 @@ import store from './store'
 import './plugins/vuetify'
 import { createProvider } from './plugins/apollo'
 import vgl from 'vue-golden-layout'
+import HighchartsVue from 'highcharts-vue'
+import Highcharts from 'highcharts'
+import stockInit from 'highcharts/modules/stock'
 
 Vue.config.productionTip = false
 
-Vue.use(vgl);
+Vue.use(vgl)
+stockInit(Highcharts)
+Vue.use(HighchartsVue)
 
 import 'golden-layout/src/css/goldenlayout-light-theme.css'
 

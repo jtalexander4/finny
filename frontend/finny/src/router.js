@@ -5,6 +5,7 @@ import Dashboard from './components/Dashboard.vue'
 import Accounts from './components/Accounts.vue'
 import AddAccount from './components/AddAccount.vue'
 import AddAccountType from './components/AddAccountType.vue'
+import Spending from './components/Spending.vue'
 
 Vue.use(Router)
 
@@ -39,5 +40,10 @@ export default new Router({
       name: 'addAccountType',
       component: AddAccountType
     },
+    {
+      path: '/spending',
+      name: 'spending',
+      component: Spending
+    }
   ]
 })

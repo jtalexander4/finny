@@ -66,4 +66,26 @@ export const EDIT_ACCOUNT = gql`
     }
 `
 
+export const DELETE_ACCOUNT = gql`
+    mutation deleteAccount($id: Int!) {
+        deleteAccountById (input: {
+            id: $id
+        }) {
+            account {
+                id
+                name
+            }
+        }
+    }
+`
 
+export const TESTING = gql`
+    query ($name: String!) {
+        allTestings(filter: {name: {equalTo: $name}}) {
+            nodes {
+                name
+                amount
+            }
+        }
+    }
+`

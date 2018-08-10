@@ -68,6 +68,7 @@
                             credit_positive: this.creditPositive
                         }
                     })
+                this.$router.go(this.$router.push('/accounts'))
             }
         }
     }

@@ -20,7 +20,7 @@
                 <v-list-tile-action>
                   <v-btn
                     outline
-                    @click="accountId(item.id)"
+                    @click="editAccountId(item.id)"
                     color="green"
                     fab
                     small
@@ -32,7 +32,7 @@
                   <v-btn
                     outline
                     color="red"
-                    @click="deleteDialog=true"
+                    @click="deleteAccountId(item.id)"
                     fab
                     small
                     dark>
@@ -52,7 +52,7 @@
                 <v-list-tile-action>
                   <v-btn
                     outline
-                    @click="accountId(subItem.id)"
+                    @click="editAccountId(subItem.id)"
                     v-model="editDialog"
                     color="green"
                     fab
@@ -64,7 +64,7 @@
                 <v-list-tile-action>
                   <v-btn
                     outline
-                    @click="deleteDialog=true"
+                    @click="deleteAccountId(subItem.id)"
                     color="red"
                     fab
                     small
@@ -209,14 +209,17 @@
     </v-fade-transition>
     <!-- delete account -->
     <v-fade-transition>
-      <v-dialog v-model="deleteDialog" persistent max-width="290">
+      <v-dialog
+        v-model="deleteDialog"
+        persistent
+        max-width="290">
         <v-card>
-          <v-card-title class="headline">Use Google's location service?</v-card-title>
-          <v-card-text>Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.</v-card-text>
+          <v-card-title class="headline">Delete Account?</v-card-title>
+          <v-card-text>Are you sure you want to delete this account? It cannot be undone.</v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="green darken-1" flat @click.native="deleteDialog = false">Disagree</v-btn>
-            <v-btn color="green darken-1" flat @click.native="deleteDialog = false">Agree</v-btn>
+            <v-btn color="green darken-1" flat @click.native="deleteAccount()">Agree</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -227,7 +230,7 @@
 <script>
 import _ from "lodash"
 import gql from "graphql-tag"
-import { ADD_ACCOUNT, EDIT_ACCOUNT } from "@/graphql"
+import { ADD_ACCOUNT, EDIT_ACCOUNT, DELETE_ACCOUNT } from "@/graphql"
 
 export default {
   data() {
@@ -281,11 +284,18 @@ export default {
         })
         .then((this.editDialog = false), location.reload())
     },
-    accountId: function(e) {
+    editAccountId: function(e) {
       if (e) {
         console.log(e)
         this.id = e
         this.editDialog = true
+      }
+    },
+    deleteAccountId: function(e) {
+      if (e) {
+        console.log(e)
+        this.id = e
+        this.deleteDialog = true
       }
     },
     addAccount() {
@@ -299,6 +309,15 @@ export default {
         }
       })
       .then((this.addDialog = false), location.reload())
+    },
+    deleteAccount() {
+      this.$apollo.mutate({
+        mutation: DELETE_ACCOUNT,
+        variables: {
+          id: this.id
+        }
+      })
+      .then((this.deleteDialog = false), location.reload())
     }
   },
   mounted() {

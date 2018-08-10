@@ -101,7 +101,7 @@
                             parentAccountId: this.parentAccount
                         }
                     })
-                this.$router.push('/accounts')
+                this.$router.go(this.$router.push('/accounts'))
             }
         },
         mounted () {
