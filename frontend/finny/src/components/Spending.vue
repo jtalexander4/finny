@@ -2,11 +2,11 @@
     <v-container fluid wrap>
         <v-layout>
             <v-flex xs12>
-                <highcharts class="stock" :constructor-type="'stockChart'" :options="stockOptions" :updateArgs="[true, false]" ref="chart"></highcharts>
+                <highcharts class="chart" :options="chartOptions" :updateArgs="[true, false]" ref="chart"></highcharts>
             </v-flex>
         </v-layout>
         <v-list>
-            <v-list-tile v-model="stockOptions"><v-list-tile-title>{{ stockOptions.series }}</v-list-tile-title></v-list-tile>
+            <v-list-tile v-model="chartOptions"><v-list-tile-title>{{ chartOptions.series }}</v-list-tile-title></v-list-tile>
             <!-- <v-list-tile><v-list-tile-title>{{ item.amounts }}</v-list-tile-title></v-list-tile> -->
         </v-list>
     </v-container>
@@ -21,13 +21,12 @@ import HighchartsVue from 'highcharts-vue'
 export default {
     data() {
         return {
-            items: [],
-            stockOptions: {
-                rangeSelector: {
-                    selected: 1
+            chartOptions: {
+                chart: {
+                    type: 'spline'
                 },
                 title: {
-                    text: "AAPL Stock Price"
+                    text: "Total Spending"
                 },
                 series: []
             }
@@ -48,27 +47,19 @@ export default {
                 `
             }).then(response => {
                 let records = response.data.allTestings.nodes
-                let items1 = _.groupBy(records, 'name')
-                this.stockOptions.series = []
-                _.forEach(items1, record => {
+                let categories = _.groupBy(records, 'name')
+                _.forEach(categories, category => {
                     let name = ''
                     let amounts = []
-                    _.forEach(record, amount => {
+                    _.forEach(category, amount => {
                         name = amount.name
                         amounts.push(amount.amount)
                     })
-                    // this.stockOptions.series.push({
-                    //     name: name,
-                    //     data: amounts,
-                    // })
                     this.$refs.chart.chart.addSeries({
                         name: name,
                         data: amounts,
                     })
                 })
-                console.log(this.$refs.chart)
-
-                // this.$refs.chart.chart.series[0].setData(this.stockOptions.series, true)
             })
         }
     },
