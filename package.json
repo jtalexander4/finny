@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "ag-grid": "^18.1.2",
+    "ag-grid-vue": "^18.1.0"
+  }
+}

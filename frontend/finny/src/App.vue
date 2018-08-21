@@ -85,7 +85,8 @@
         { divider: true },
         { name: 'Dashboard', icon: 'dashboard', path: '#/dashboard', disabled: false },
         { name: 'Accounts', icon: 'account_balance', path: '#/accounts', disabled: true },
-        { name: 'Spending', icon: 'money', path: '#/spending', disabled: true },
+        { name: 'Spending', icon: 'money', path: '#/spending', disabled: false },
+        { name: 'Transactions', icon: 'compare_arrows', path: '#/transactions', disabled: false },
       ]
     }),
     props: {

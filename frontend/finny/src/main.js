@@ -17,6 +17,8 @@ stockInit(Highcharts)
 Vue.use(HighchartsVue)
 
 import 'golden-layout/src/css/goldenlayout-light-theme.css'
+import "../node_modules/ag-grid/dist/styles/ag-grid.css";
+import "../node_modules/ag-grid/dist/styles/ag-theme-material.css";
 
 Vue.filter('toCurrency', function (value) {
   var formatter = new Intl.NumberFormat('en-US', {

@@ -5,10 +5,6 @@
                 <highcharts class="chart" :options="chartOptions" :updateArgs="[true, false]" ref="chart"></highcharts>
             </v-flex>
         </v-layout>
-        <v-list>
-            <v-list-tile v-model="chartOptions"><v-list-tile-title>{{ chartOptions.series }}</v-list-tile-title></v-list-tile>
-            <!-- <v-list-tile><v-list-tile-title>{{ item.amounts }}</v-list-tile-title></v-list-tile> -->
-        </v-list>
     </v-container>
 
 </template>
@@ -16,7 +12,6 @@
 <script>
 import _ from "lodash"
 import gql from "graphql-tag"
-import HighchartsVue from 'highcharts-vue'
 
 export default {
     data() {
