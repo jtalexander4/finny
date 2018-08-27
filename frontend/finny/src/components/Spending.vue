@@ -3,6 +3,7 @@
         <v-layout>
             <v-flex xs12>
                 <highcharts class="chart" :options="chartOptions" :updateArgs="[true, false]" ref="chart"></highcharts>
+                <v-text></v-text>
             </v-flex>
         </v-layout>
     </v-container>
@@ -32,28 +33,33 @@ export default {
             this.$apollo.query({
                 query: gql`
                     {
-                        allTestings {
+                        allTransactionLines {
                             nodes {
-                                name
+                                accountByAccountId {
+                                    id 
+                                    name
+                                }
                                 amount
                             }
                         }
                     }
                 `
             }).then(response => {
-                let records = response.data.allTestings.nodes
-                let categories = _.groupBy(records, 'name')
+                let records = response.data.allTransactionLines.nodes
+                let categories = _.groupBy(records, 'accountByAccountId.name')
                 _.forEach(categories, category => {
                     let name = ''
                     let amounts = []
                     _.forEach(category, amount => {
-                        name = amount.name
+                        name = amount.accountByAccountId.name
                         amounts.push(amount.amount)
                     })
                     this.$refs.chart.chart.addSeries({
                         name: name,
                         data: amounts,
                     })
+                    console.log(this.$refs.chart.chart)
+                    console.log(amounts)
                 })
             })
         }

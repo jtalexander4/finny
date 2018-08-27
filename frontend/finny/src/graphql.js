@@ -21,7 +21,7 @@ export const ADD_ACCOUNT = gql`
     mutation AddAccount($name: String!, $parentAccountId: Int, $balance: BigFloat!, $accountTypeId: Int!) {
         createAccount( input: {
             account: {
-                name: $name,
+                name: $name
                 balance: $balance
                 accountTypeId: $accountTypeId
                 parentAccountId: $parentAccountId
@@ -85,6 +85,32 @@ export const TESTING = gql`
             nodes {
                 name
                 amount
+            }
+        }
+    }
+`
+
+export const ADD_TRANSACTION_LINE = gql`
+    mutation AddTransactionLine($accountId: Int!, $amount: BigFloat!, $fiscalPeriodId: Int!, $datePosted: Date!) {
+        createTransactionLine( input: {
+            transactionLine: {
+                accountId: $accountId
+                amount: $amount
+                fiscalPeriodId: $fiscalPeriodId
+                datePosted: $datePosted
+            }
+        }) {
+            transactionLine {
+                accountByAccountId {
+                    id
+                    name
+                }
+                amount
+                fiscalPeriodByFiscalPeriodId {
+                    id
+                    name
+                }
+                datePosted
             }
         }
     }
